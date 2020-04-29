@@ -1165,7 +1165,12 @@ describe( 'actions', () => {
 	describe( '#requestThemeFilters', () => {
 		test( 'should return THEME_FILTERS_REQUEST action', () => {
 			const action = requestThemeFilters();
-			expect( action ).to.deep.equal( { type: THEME_FILTERS_REQUEST } );
+			expect( action ).to.deep.equal( { type: THEME_FILTERS_REQUEST, params: {} } );
+
+			const params = { locale: 'de' };
+			const actionWithParams = requestThemeFilters( params );
+
+			expect( actionWithParams ).to.deep.equal( { type: THEME_FILTERS_REQUEST, params } );
 		} );
 	} );
 
