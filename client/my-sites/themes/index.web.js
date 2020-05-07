@@ -2,6 +2,7 @@
  * Internal dependencies
  */
 import userFactory from 'calypso/lib/user';
+import { getLanguageRouteParam } from 'calypso/lib/i18n-utils';
 import { makeLayout, redirectLoggedOut } from 'calypso/controller';
 import { navigation, siteSelection, sites } from 'calypso/my-sites/controller';
 import { loggedIn, loggedOut, upload, fetchThemeFilters } from './controller';
@@ -24,11 +25,12 @@ export default function ( router ) {
 		'|' + // or
 		'[^\\\\/.]+\\.[^\\\\/]+'; // one-or-more non-slash-or-dot chars, then a dot, then one-or-more non-slashes
 
+	const langParam = getLanguageRouteParam();
 	const routes = [
-		`/themes/:tier(free|premium)?/:site_id(${ siteId })?`,
-		`/themes/:tier(free|premium)?/filter/:filter/:site_id(${ siteId })?`,
-		`/themes/:vertical?/:tier(free|premium)?/:site_id(${ siteId })?`,
-		`/themes/:vertical?/:tier(free|premium)?/filter/:filter/:site_id(${ siteId })?`,
+		`/${ langParam }/themes/:tier(free|premium)?/:site_id(${ siteId })?`,
+		`/${ langParam }/themes/:tier(free|premium)?/filter/:filter/:site_id(${ siteId })?`,
+		`/${ langParam }/themes/:vertical?/:tier(free|premium)?/:site_id(${ siteId })?`,
+		`/${ langParam }/themes/:vertical?/:tier(free|premium)?/filter/:filter/:site_id(${ siteId })?`,
 	];
 
 	// Upload routes are valid only when logged in. In logged-out sessions they redirect to login page.
