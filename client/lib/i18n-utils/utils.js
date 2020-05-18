@@ -106,7 +106,9 @@ export function getLanguageSlugs() {
  * @returns {string} Router param specifier that looks like `:lang(cs|de|fr|pl)`
  */
 export function getLanguageRouteParam( name = 'lang', optional = true ) {
-	return `:${ name }(${ getLanguageSlugs().join( '|' ) })${ optional ? '?' : '' }`;
+	const languageSlugs = getLanguageSlugs();
+
+	return `:${ name }(${ languageSlugs.join( '|' ) })${ optional ? '?' : '' }`;
 }
 
 /**
