@@ -37,5 +37,8 @@
 	},
 	"dependencies": {
 		"tslib": "^1.10.0"
+	},
+	"volta": {
+		"extends": "../../package.json"
 	}
 }
