@@ -239,12 +239,12 @@ class AutoRenewDisablingDialog extends Component {
 		const buttons = [
 			{
 				action: 'close',
-				label: translate( 'Keep auto-renew enabled' ),
+				label: translate( 'Keep auto-renewal on' ),
 				onClick: this.closeAndCleanup,
 			},
 			{
 				action: 'confirm',
-				label: translate( 'Disable auto-renew' ),
+				label: translate( 'Turn auto-renewal off' ),
 				onClick: this.onClickGeneralConfirm,
 				isPrimary: true,
 			},
