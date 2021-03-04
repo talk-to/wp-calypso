@@ -55,6 +55,8 @@ import isJetpackCloud from 'calypso/lib/jetpack/is-jetpack-cloud';
 import { inJetpackCloudOAuthOverride } from 'calypso/lib/jetpack/oauth-override';
 import { getLanguageSlugs } from 'calypso/lib/i18n-utils/utils';
 import { loadExperimentAssignment } from 'calypso/lib/explat';
+import smartlookClient from 'smartlook-client';
+import { TRACKING_IDS } from 'calypso/lib/analytics/ad-tracking/constants';
 
 const debug = debugFactory( 'calypso' );
 
@@ -271,6 +273,19 @@ function setupErrorLogger( reduxStore ) {
 	} );
 }
 
+const maybeInitSmartLook = ( currentUser ) => {
+	if (
+		undefined !== currentUser &&
+		currentUser.user_ip_country_code &&
+		'US' === currentUser.user_ip_country_code
+	) {
+		console.log( 'smart look init' );
+		// smartlookClient.init( TRACKING_IDS.smartlook );
+		smartlookClient.init( '98c666884957ee860d17344b28a2bab2eb8ed47e' );
+		smartlookClient.pause();
+	}
+};
+
 const setupMiddlewares = ( currentUser, reduxStore ) => {
 	debug( 'Executing Calypso setup middlewares.' );
 
@@ -281,8 +296,10 @@ const setupMiddlewares = ( currentUser, reduxStore ) => {
 	setRouteMiddleware();
 	unsavedFormsMiddleware();
 
+	const fetchedCurrentUser = currentUser ? currentUser.get() : undefined;
 	// The analytics module requires user (when logged in) and superProps objects. Inject these here.
-	initializeAnalytics( currentUser ? currentUser.get() : undefined, getSuperProps( reduxStore ) );
+	initializeAnalytics( fetchedCurrentUser, getSuperProps( reduxStore ) );
+	maybeInitSmartLook( fetchedCurrentUser );
 
 	setupErrorLogger( reduxStore );
 

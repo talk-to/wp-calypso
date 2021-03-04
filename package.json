@@ -289,6 +289,7 @@
 		"sharp": "^0.25.3",
 		"sinon": "^9.0.2",
 		"sinon-chai": "^3.5.0",
+		"smartlook-client": "^4.6.1",
 		"source-map": "^0.7.3",
 		"style-loader": "^1.2.1",
 		"stylelint": "^13.7.0",

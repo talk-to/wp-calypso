@@ -24805,6 +24805,11 @@ smart-buffer@^4.1.0:
   resolved "https://registry.yarnpkg.com/smart-buffer/-/smart-buffer-4.1.0.tgz#91605c25d91652f4661ea69ccf45f1b331ca21ba"
   integrity sha512-iVICrxOzCynf/SNaBQCw34eM9jROU/s5rzIhpOvzhzuYHfJR/DhZfDkXiZSgKXfgv26HT3Yni3AV/DGw0cGnnw==
 
+smartlook-client@^4.6.1:
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/smartlook-client/-/smartlook-client-4.6.1.tgz#0c99c297ef52ef42cc3732cf17ea7ebfd81cfefe"
+  integrity sha512-UDRSooOrZA2d70wesTqw+aHv7j64ker+G3+fk6aD7QCm51sAuTG+H+DfXWad2RBv37KjzNAFKuYGVCBO6IfPMg==
+
 snake-case@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/snake-case/-/snake-case-2.1.0.tgz#41bdb1b73f30ec66a04d4e2cad1b76387d4d6d9f"
