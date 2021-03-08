@@ -638,7 +638,7 @@ export default function CompositeCheckout( {
 	}
 
 	return (
-		<React.Fragment>
+		<AnalyticsSafeContainer>
 			<QuerySitePlans siteId={ siteId } />
 			<QuerySitePurchases siteId={ siteId } />
 			<QueryPlans />
@@ -646,48 +646,44 @@ export default function CompositeCheckout( {
 			<QueryProducts />
 			<QueryContactDetailsCache />
 			<PageViewTracker path={ analyticsPath } title="Checkout" properties={ analyticsProps } />
-			<AnalyticsSafeContainer>
-				<CheckoutProvider
-					items={ itemsForCheckout }
-					total={ total }
-					onPaymentComplete={ handlePaymentComplete }
-					showErrorMessage={ showErrorMessage }
-					showInfoMessage={ showInfoMessage }
-					showSuccessMessage={ showSuccessMessage }
-					onEvent={ recordEvent }
-					paymentMethods={ paymentMethods }
-					paymentProcessors={ paymentProcessors }
-					registry={ defaultRegistry }
-					isLoading={ isLoading }
-					isValidating={ isCartPendingUpdate }
-					theme={ theme }
-					initiallySelectedPaymentMethodId={
-						paymentMethods?.length ? paymentMethods[ 0 ].id : null
-					}
-				>
-					<WPCheckout
-						removeProductFromCart={ removeProductFromCart }
-						updateLocation={ updateLocation }
-						applyCoupon={ applyCoupon }
-						removeCoupon={ removeCoupon }
-						couponStatus={ couponStatus }
-						changePlanLength={ changePlanLength }
-						siteId={ siteId }
-						siteUrl={ siteSlug }
-						countriesList={ countriesList }
-						StateSelect={ StateSelect }
-						getItemVariants={ getItemVariants }
-						responseCart={ responseCart }
-						addItemToCart={ addItemWithEssentialProperties }
-						isCartPendingUpdate={ isCartPendingUpdate }
-						showErrorMessageBriefly={ showErrorMessageBriefly }
-						isLoggedOutCart={ isLoggedOutCart }
-						createUserAndSiteBeforeTransaction={ createUserAndSiteBeforeTransaction }
-						infoMessage={ infoMessage }
-					/>
-				</CheckoutProvider>
-			</AnalyticsSafeContainer>
-		</React.Fragment>
+			<CheckoutProvider
+				items={ itemsForCheckout }
+				total={ total }
+				onPaymentComplete={ handlePaymentComplete }
+				showErrorMessage={ showErrorMessage }
+				showInfoMessage={ showInfoMessage }
+				showSuccessMessage={ showSuccessMessage }
+				onEvent={ recordEvent }
+				paymentMethods={ paymentMethods }
+				paymentProcessors={ paymentProcessors }
+				registry={ defaultRegistry }
+				isLoading={ isLoading }
+				isValidating={ isCartPendingUpdate }
+				theme={ theme }
+				initiallySelectedPaymentMethodId={ paymentMethods?.length ? paymentMethods[ 0 ].id : null }
+			>
+				<WPCheckout
+					removeProductFromCart={ removeProductFromCart }
+					updateLocation={ updateLocation }
+					applyCoupon={ applyCoupon }
+					removeCoupon={ removeCoupon }
+					couponStatus={ couponStatus }
+					changePlanLength={ changePlanLength }
+					siteId={ siteId }
+					siteUrl={ siteSlug }
+					countriesList={ countriesList }
+					StateSelect={ StateSelect }
+					getItemVariants={ getItemVariants }
+					responseCart={ responseCart }
+					addItemToCart={ addItemWithEssentialProperties }
+					isCartPendingUpdate={ isCartPendingUpdate }
+					showErrorMessageBriefly={ showErrorMessageBriefly }
+					isLoggedOutCart={ isLoggedOutCart }
+					createUserAndSiteBeforeTransaction={ createUserAndSiteBeforeTransaction }
+					infoMessage={ infoMessage }
+				/>
+			</CheckoutProvider>
+		</AnalyticsSafeContainer>
 	);
 }
 
