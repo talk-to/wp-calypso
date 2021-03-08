@@ -663,7 +663,7 @@ export default function CompositeCheckout( {
 				initiallySelectedPaymentMethodId={ paymentMethods?.length ? paymentMethods[ 0 ].id : null }
 			>
 				<WPCheckout
-					removeProductFromCart={ removeProductFromCart }
+					removeProductFromCart={ removeProductFromCartAndMaybeRedirect }
 					updateLocation={ updateLocation }
 					applyCoupon={ applyCoupon }
 					removeCoupon={ removeCoupon }
