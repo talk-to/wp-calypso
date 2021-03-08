@@ -17,6 +17,11 @@ import {
 } from '@automattic/composite-checkout';
 import { ThemeProvider } from 'emotion-theming';
 import { useShoppingCart } from '@automattic/shopping-cart';
+import type {
+	RequestCartProduct,
+	ResponseCart,
+	ResponseCartProduct,
+} from '@automattic/shopping-cart';
 import type { ResponseCart, ResponseCartProduct } from '@automattic/shopping-cart';
 import colorStudio from '@automattic/color-studio';
 import { useStripe } from '@automattic/calypso-stripe';
@@ -42,6 +47,7 @@ import QuerySitePlans from 'calypso/components/data/query-site-plans';
 import QueryPlans from 'calypso/components/data/query-plans';
 import QueryProducts from 'calypso/components/data/query-products-list';
 import QueryExperiments from 'calypso/components/data/query-experiments';
+import AnalyticsSafeContainer from 'calypso/components/analytics-safe-container';
 import useIsApplePayAvailable from './hooks/use-is-apple-pay-available';
 import filterAppropriatePaymentMethods from './lib/filter-appropriate-payment-methods';
 import useStoredCards from './hooks/use-stored-cards';
@@ -640,43 +646,47 @@ export default function CompositeCheckout( {
 			<QueryProducts />
 			<QueryContactDetailsCache />
 			<PageViewTracker path={ analyticsPath } title="Checkout" properties={ analyticsProps } />
-			<CheckoutProvider
-				items={ itemsForCheckout }
-				total={ total }
-				onPaymentComplete={ handlePaymentComplete }
-				showErrorMessage={ showErrorMessage }
-				showInfoMessage={ showInfoMessage }
-				showSuccessMessage={ showSuccessMessage }
-				onEvent={ recordEvent }
-				paymentMethods={ paymentMethods }
-				paymentProcessors={ paymentProcessors }
-				registry={ defaultRegistry }
-				isLoading={ isLoading }
-				isValidating={ isCartPendingUpdate }
-				theme={ theme }
-				initiallySelectedPaymentMethodId={ paymentMethods?.length ? paymentMethods[ 0 ].id : null }
-			>
-				<WPCheckout
-					removeProductFromCart={ removeProductFromCartAndMaybeRedirect }
-					updateLocation={ updateLocation }
-					applyCoupon={ applyCoupon }
-					removeCoupon={ removeCoupon }
-					couponStatus={ couponStatus }
-					changePlanLength={ changePlanLength }
-					siteId={ siteId }
-					siteUrl={ siteSlug }
-					countriesList={ countriesList }
-					StateSelect={ StateSelect }
-					getItemVariants={ getItemVariants }
-					responseCart={ responseCart }
-					addItemToCart={ addItemWithEssentialProperties }
-					isCartPendingUpdate={ isCartPendingUpdate }
-					showErrorMessageBriefly={ showErrorMessageBriefly }
-					isLoggedOutCart={ isLoggedOutCart }
-					createUserAndSiteBeforeTransaction={ createUserAndSiteBeforeTransaction }
-					infoMessage={ infoMessage }
-				/>
-			</CheckoutProvider>
+			<AnalyticsSafeContainer>
+				<CheckoutProvider
+					items={ itemsForCheckout }
+					total={ total }
+					onPaymentComplete={ handlePaymentComplete }
+					showErrorMessage={ showErrorMessage }
+					showInfoMessage={ showInfoMessage }
+					showSuccessMessage={ showSuccessMessage }
+					onEvent={ recordEvent }
+					paymentMethods={ paymentMethods }
+					paymentProcessors={ paymentProcessors }
+					registry={ defaultRegistry }
+					isLoading={ isLoading }
+					isValidating={ isCartPendingUpdate }
+					theme={ theme }
+					initiallySelectedPaymentMethodId={
+						paymentMethods?.length ? paymentMethods[ 0 ].id : null
+					}
+				>
+					<WPCheckout
+						removeProductFromCart={ removeProductFromCart }
+						updateLocation={ updateLocation }
+						applyCoupon={ applyCoupon }
+						removeCoupon={ removeCoupon }
+						couponStatus={ couponStatus }
+						changePlanLength={ changePlanLength }
+						siteId={ siteId }
+						siteUrl={ siteSlug }
+						countriesList={ countriesList }
+						StateSelect={ StateSelect }
+						getItemVariants={ getItemVariants }
+						responseCart={ responseCart }
+						addItemToCart={ addItemWithEssentialProperties }
+						isCartPendingUpdate={ isCartPendingUpdate }
+						showErrorMessageBriefly={ showErrorMessageBriefly }
+						isLoggedOutCart={ isLoggedOutCart }
+						createUserAndSiteBeforeTransaction={ createUserAndSiteBeforeTransaction }
+						infoMessage={ infoMessage }
+					/>
+				</CheckoutProvider>
+			</AnalyticsSafeContainer>
 		</React.Fragment>
 	);
 }
