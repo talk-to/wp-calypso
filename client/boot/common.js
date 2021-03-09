@@ -55,7 +55,7 @@ import isJetpackCloud from 'calypso/lib/jetpack/is-jetpack-cloud';
 import { inJetpackCloudOAuthOverride } from 'calypso/lib/jetpack/oauth-override';
 import { getLanguageSlugs } from 'calypso/lib/i18n-utils/utils';
 import { loadExperimentAssignment } from 'calypso/lib/explat';
-import { init as fullStoryInit } from '@fullstory/browser';
+import { init as fullStoryInit, shutdown as fullStoryShutdown } from '@fullstory/browser';
 import { TRACKING_IDS } from 'calypso/lib/analytics/ad-tracking/constants';
 
 const debug = debugFactory( 'calypso' );
@@ -280,6 +280,7 @@ const maybeInitFullStory = ( currentUser ) => {
 		'US' === currentUser.user_ip_country_code
 	) {
 		fullStoryInit( { orgId: TRACKING_IDS.fullStoryOrgId } );
+		fullStoryShutdown();
 	}
 };
 
