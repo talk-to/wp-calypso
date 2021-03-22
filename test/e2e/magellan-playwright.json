@@ -1,7 +1,7 @@
 {
 	"mocha_tests": [ "specs-playwright" ],
-	"mocha_args": [ "--file ./lib/mocha-hooks/playwright-hooks.js", "-R spec-junit-reporter" ],
-	"max_test_attempts": 3,
+	"mocha_args": "--file lib/mocha-hooks/playwright-hooks.js --reporter mocha-teamcity-reporter -R spec-junit-reporter",
+	"max_test_attempts": 2,
 	"max_workers": 1,
 	"sauce": false,
 	"framework": "testarmada-magellan-mocha-plugin",

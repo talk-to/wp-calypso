@@ -9,13 +9,13 @@ import assert from 'assert';
 /**
  * Internal dependencies
  */
-import * as slackNotifier from './slack-notifier';
+import * as slackNotifier from '../slack-notifier';
 
-import * as mediaHelper from './media-helper';
+import * as mediaHelper from '../media-helper';
 
-import * as driverManager from './driver-manager';
-import * as driverHelper from './driver-helper';
-import * as videoRecorder from '../lib/video-recorder';
+import * as driverManager from '../driver-manager';
+import * as driverHelper from '../driver-helper';
+import * as videoRecorder from '../video-recorder';
 
 const afterHookTimeoutMS = config.get( 'afterHookTimeoutMS' );
 let allPassed = true; // For SauceLabs status
