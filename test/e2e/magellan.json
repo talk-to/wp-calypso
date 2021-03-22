@@ -1,6 +1,6 @@
 {
 	"mocha_tests": [ "specs" ],
-	"mocha_args": "-R spec-junit-reporter",
+	"mocha_args": [ "lib/mocha-hooks/mocha-hooks.js", "-R spec-junit-reporter" ],
 	"max_test_attempts": 3,
 	"max_workers": 6,
 	"suiteTag": "parallel;signup",

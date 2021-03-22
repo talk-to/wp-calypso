@@ -1,6 +1,6 @@
 {
 	"mocha_tests": [ "specs-playwright" ],
-	"mocha_args": "-R spec-junit-reporter",
+	"mocha_args": [ "--file ./lib/mocha-hooks/playwright-hooks.js", "-R spec-junit-reporter" ],
 	"max_test_attempts": 3,
 	"max_workers": 1,
 	"sauce": false,
