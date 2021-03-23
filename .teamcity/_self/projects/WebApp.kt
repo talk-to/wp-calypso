@@ -271,7 +271,7 @@ object RunCalypsoE2eMobileTests : BuildType({
 				export NODE_CONFIG="{\"calypsoBaseURL\":\"${'$'}{URL%/}\"}"
 				export TEST_FILES=${'$'}(join ',' ${'$'}(find specs*/**/*spec.js -type f -not -path specs-playwright/*))
 
-				yarn magellan --config=magellan.json --max_workers=%E2E_WORKERS% --suiteTag=parallel --local_browser=chrome --mocha_args="--reporter mocha-teamcity-reporter" --test=${'$'}{TEST_FILES}
+				yarn magellan --config=magellan.json --max_workers=%E2E_WORKERS% --suiteTag=parallel --local_browser=chrome --test=${'$'}{TEST_FILES}
 			""".trimIndent()
 			dockerImage = "%docker_image_e2e%"
 			dockerRunParameters = "-u %env.UID% --security-opt seccomp=.teamcity/docker-seccomp.json --shm-size=8gb"
@@ -805,7 +805,7 @@ object RunCalypsoPlaywrightE2eTests : BuildType({
 				export NODE_CONFIG="{\"calypsoBaseURL\":\"${'$'}{URL%/}\"}"
 				export TEST_FILES=${'$'}(join ',' ${'$'}(ls -1 specs-playwright/**/*spec.js))
 
-				xvfb-run yarn magellan --config=magellan-playwright.json --max_workers=%E2E_WORKERS% --suiteTag=parallel --local_browser=chrome --mocha_args="--reporter mocha-teamcity-reporter" --test=${'$'}{TEST_FILES}
+				xvfb-run yarn magellan --config=magellan-playwright.json --max_workers=%E2E_WORKERS% --suiteTag=parallel --local_browser=chrome --test=${'$'}{TEST_FILES}
 			""".trimIndent()
 			dockerImage = "%docker_image_e2e%"
 			dockerRunParameters = "-u %env.UID% --security-opt seccomp=.teamcity/docker-seccomp.json --shm-size=8gb"
