@@ -104,7 +104,6 @@ while getopts ":a:RpS:B:s:gjCJH:wzyl:cm:f:iIUvxu:h:F" opt; do
       ;;
     g)
       MAGELLAN_CONFIG="magellan.json"
-      MOCHA_ARGS+="-file lib/mocha-hooks/mocha-hooks.js"
       ;;
     i)
       NODE_CONFIG_ARGS+=$I18N_CONFIG
