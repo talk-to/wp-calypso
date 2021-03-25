@@ -13,7 +13,7 @@ let configFile;
 if ( framework === undefined || framework.toLowerCase() === 'selenium' ) {
 	configFile = 'lib/mocha-hooks/mocha-hooks.js';
 } else if ( framework.toLowerCase() === 'playwright' ) {
-	configFile = 'lib/mocha-hooks/playwright-hooks.js';
+	configFile = 'lib/mocha-hooks/playwright-hooks.ts';
 }
 
 module.exports = {
