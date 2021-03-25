@@ -8,7 +8,7 @@ import config from 'config';
 /**
  * Internal dependencies
  */
-import * as browserManager from '../browser-manager';
+import * as browserManager from '../../dist/lib/browser-manager';
 
 const afterHookTimeoutMS = config.get( 'afterHookTimeoutMS' );
 
