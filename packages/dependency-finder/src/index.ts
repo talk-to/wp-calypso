@@ -2,8 +2,8 @@
  * External dependencies
  */
 import path from 'path';
-// import fs from 'fs';
-// import { fileURLToPath } from 'url';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 import childProcess from 'child_process';
 import { promisify } from 'util';
 
@@ -14,40 +14,11 @@ const exec = promisify( childProcess.exec );
  */
 import { findDependencies } from './lib/find-dependencies.js';
 
-// const packageMapPath = path.join(
-// 	path.dirname( fileURLToPath( import.meta.url ) ),
-// 	'../../../../package-map.json'
-// );
-// const packageMap = JSON.parse( fs.readFileSync( packageMapPath, 'utf8' ) );
-
-const packageMap = [
-	{
-		path: 'apps/editing-toolkit',
-		additionalEntryPoints: [
-			'apps/editing-toolkit/editing-toolkit-plugin/block-inserter-modifications/contextual-tips.js',
-			'apps/editing-toolkit/editing-toolkit-plugin/block-patterns/index.ts',
-			'apps/editing-toolkit/editing-toolkit-plugin/common/index.js',
-			'apps/editing-toolkit/editing-toolkit-plugin/common/data-stores/index.ts',
-			'apps/editing-toolkit/editing-toolkit-plugin/common/hide-plugin-buttons-mobile.js',
-			'apps/editing-toolkit/editing-toolkit-plugin/dotcom-fse/index.js',
-			'apps/editing-toolkit/editing-toolkit-plugin/editor-site-launch/focused-launch.ts',
-			'apps/editing-toolkit/editing-toolkit-plugin/editor-site-launch/gutenboarding-launch.ts',
-			'apps/editing-toolkit/editing-toolkit-plugin/editor-site-launch/launch-button.ts',
-			'apps/editing-toolkit/editing-toolkit-plugin/event-countdown-block/index.js',
-			'apps/editing-toolkit/editing-toolkit-plugin/global-styles/index.js',
-			'apps/editing-toolkit/editing-toolkit-plugin/jetpack-timeline/index.js',
-			'apps/editing-toolkit/editing-toolkit-plugin/newspack-blocks/blog-posts-block-editor.js',
-			'apps/editing-toolkit/editing-toolkit-plugin/newspack-blocks/blog-posts-block-view.js',
-			'apps/editing-toolkit/editing-toolkit-plugin/newspack-blocks/carousel-block-editor.js',
-			'apps/editing-toolkit/editing-toolkit-plugin/newspack-blocks/carousel-block-view.js',
-			'apps/editing-toolkit/editing-toolkit-plugin/posts-list-block.js',
-			'apps/editing-toolkit/editing-toolkit-plugin/starter-page-templates/index.tsx',
-			'apps/editing-toolkit/editing-toolkit-plugin/whats-new/index.js',
-			'apps/editing-toolkit/editing-toolkit-plugin/wpcom-block-editor-nav-sidebar/index.ts',
-			'apps/editing-toolkit/editing-toolkit-plugin/wpcom-block-editor-nux/index.js',
-		],
-	},
-];
+const packageMapPath = path.join(
+	path.dirname( fileURLToPath( import.meta.url ) ),
+	'../../../../package-map.json'
+);
+const packageMap = JSON.parse( fs.readFileSync( packageMapPath, 'utf8' ) );
 
 const monorepoPackages = [
 	'packages/accessible-focus',

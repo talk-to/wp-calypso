@@ -10,6 +10,7 @@ import fs from 'fs';
 
 import { findPackageJsonEntrypoints } from './entrypoints/packagejson.js';
 import { findJestEntrypoints } from './entrypoints/jest.js';
+import { findAdditionalEntryPoints } from './entrypoints/additional.js';
 
 export const findDependencies = async ( {
 	pkg,
@@ -55,9 +56,7 @@ export const findDependencies = async ( {
 		}
 	} )();
 
-	const absoluteAdditionalEntryPoints = additionalEntryPoints.map( ( file ) =>
-		path.resolve( file )
-	);
+	const absoluteAdditionalEntryPoints = await findAdditionalEntryPoints( additionalEntryPoints );
 
 	for ( const entrypoint of [ ...entrypoints, ...jestTests, ...absoluteAdditionalEntryPoints ] ) {
 		const tree = dependencyTree.toList( {
