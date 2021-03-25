@@ -13,9 +13,12 @@ import type { Browser, BrowserContext } from 'playwright';
 /**
  * Internal dependencies
  */
-import type { screenSize, localeCode } from './types';
+import type { screenSize, localeCode, timeoutMS } from './types';
 
-const browserStartTimeoutMS = 2000;
+/**
+ * Constants
+ */
+const startBrowserTimeoutMS = config.get( 'startBrowserTimeoutMS' ) as timeoutMS;
 
 export let browser: Browser;
 
@@ -107,7 +110,7 @@ export async function launchBrowser(): Promise< Browser > {
 	return await chromium.launch( {
 		headless: isHeadless,
 		args: [ '--window-position=0,0', `--window-size=${ dimension.width },${ dimension.height }` ],
-		timeout: browserStartTimeoutMS,
+		timeout: startBrowserTimeoutMS,
 	} );
 }
 

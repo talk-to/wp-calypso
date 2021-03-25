@@ -26,6 +26,7 @@
 		"@babel/register": "^7.0.0",
 		"@babel/runtime": "^7.3.1",
 		"@types/config": "0.0.38",
+		"@types/mocha": "^8.2.2",
 		"@xmpp/plugins": "^0.3.0",
 		"asana-phrase": "^0.0.8",
 		"cached-path-relative": ">=1.0.2",
