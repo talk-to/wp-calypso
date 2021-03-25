@@ -6,8 +6,6 @@
 const framework = process.env.FRAMEWORK;
 let configFile;
 
-console.log( process.argv );
-
 // Sets the config variable to the appropriate configuration file
 // for the specified framework.
 // As Selenium tests are the default and in the interest of not interrupting
