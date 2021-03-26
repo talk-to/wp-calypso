@@ -13,12 +13,12 @@ import type { Browser, BrowserContext } from 'playwright';
 /**
  * Internal dependencies
  */
-import type { screenSize, localeCode, timeoutMS } from './types';
+import type { screenSize, localeCode } from './types';
 
 /**
  * Constants
  */
-const startBrowserTimeoutMS = config.get( 'startBrowserTimeoutMS' ) as timeoutMS;
+const startBrowserTimeoutMS = config.get( 'startBrowserTimeoutMS' ) as number;
 
 export let browser: Browser;
 

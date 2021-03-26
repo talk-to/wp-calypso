@@ -10,9 +10,8 @@ import { after } from 'mocha';
  * Internal dependencies
  */
 import * as browserManager from '../browser-manager';
-import type { timeoutMS } from '../types';
 
-const afterHookTimeoutMS = config.get( 'afterHookTimeoutMS' ) as timeoutMS;
+const afterHookTimeoutMS = config.get( 'afterHookTimeoutMS' ) as number;
 
 /**
  * Hook to quit the intance of Playwright browser.
