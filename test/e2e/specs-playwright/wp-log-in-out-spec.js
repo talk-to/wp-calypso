@@ -31,7 +31,7 @@ describe( `Auth Screen @canary @parallel`, function () {
 		page = await browserContext.newPage();
 		// Set the page using mocha's metadata. Upon test failure,
 		// mocha hooks can access the page to perform actions.
-		this.currentTest.page = page;
+		this.currentTest.ctx.page = page;
 	} );
 
 	describe( 'Loading the log-in page', function () {
