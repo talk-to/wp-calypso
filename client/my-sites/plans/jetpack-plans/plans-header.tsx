@@ -15,21 +15,33 @@ import Notice from 'calypso/components/notice';
 import { getSelectedSiteId } from 'calypso/state/ui/selectors';
 import getSitePlan from 'calypso/state/sites/selectors/get-site-plan';
 import getSiteProducts from 'calypso/state/sites/selectors/get-site-products';
+import { useExperiment } from 'calypso/lib/explat';
 import { PLAN_JETPACK_FREE } from 'calypso/lib/plans/constants';
 import { JETPACK_PRODUCTS_LIST } from 'calypso/lib/products-values/constants';
 import IntroPricingBanner from 'calypso/components/jetpack/intro-pricing-banner';
 
-const StandardPlansHeader = () => (
-	<>
-		<FormattedHeader headerText={ translate( 'Plans' ) } align="left" brandFont />
-		<PlansNavigation path={ '/plans' } />
-		<h2 className="jetpack-plans__pricing-header">
-			{ preventWidows(
-				translate( 'Security, performance, and marketing tools made for WordPress' )
-			) }
-		</h2>
-	</>
-);
+const StandardPlansHeader = () => {
+	const [ isLoadingExperimentAssignment, experimentAssignment ] = useExperiment(
+		'jetpack_explat_testing'
+	);
+
+	let headerText;
+	if ( isLoadingExperimentAssignment ) {
+		headerText = translate( 'Security, performance, and marketing tools made for WordPress' );
+	} else if ( 'treatment' === experimentAssignment?.variationName ) {
+		headerText = translate( 'Security, performance, and marketing tools made for WordPress' );
+	} else {
+		headerText = translate( 'Security, performance, and marketing tools made for WordPress' );
+	}
+
+	return (
+		<>
+			<FormattedHeader headerText={ translate( 'Plans' ) } align="left" brandFont />
+			<PlansNavigation path={ '/plans' } />
+			<h2 className="jetpack-plans__pricing-header">{ preventWidows( headerText ) }</h2>
+		</>
+	);
+};
 
 const ConnectFlowPlansHeader = () => (
 	<>
