@@ -397,27 +397,6 @@ export function logPerformance( driver ) {
 	}
 }
 
-export async function ensureMobileMenuOpen( driver ) {
-	if ( process.env.BROWSERSIZE !== 'mobile' ) {
-		return null;
-	}
-
-	const mobileHeaderLocator = by.css( '.section-nav__mobile-header' );
-	const menuLocator = by.css( '.section-nav' );
-	const openMenuLocator = by.css( '.section-nav.is-open' );
-
-	await waitTillPresentAndDisplayed( driver, menuLocator );
-	const menuElement = await driver.findElement( menuLocator );
-	const isMenuOpen = await menuElement
-		.getAttribute( 'class' )
-		.then( ( classNames ) => classNames.includes( 'is-open' ) );
-
-	if ( ! isMenuOpen ) {
-		await clickWhenClickable( driver, mobileHeaderLocator );
-		await waitTillPresentAndDisplayed( driver, openMenuLocator );
-	}
-}
-
 export function waitForInfiniteListLoad( driver, elementSelector, { numElements = 10 } = {} ) {
 	return driver.wait( function () {
 		return driver.findElements( elementSelector ).then( ( elements ) => {
