@@ -73,7 +73,7 @@ ENV CHROMEDRIVER_SKIP_DOWNLOAD=false
 ENV PUPPETEER_SKIP_DOWNLOAD=false
 ENV PLAYWRIGHT_SKIP_DOWNLOAD=false
 # This chrome image is the latest version supported by wp-desktop's chromedriver, declared in desktop/package.json.
-ENV CHROME_VERSION="80.0.3987.163-1"
+ENV CHROME_VERSION="87.0.4280.141-1"
 ENV DISPLAY=:99
 
 RUN apt update \
