@@ -85,8 +85,8 @@ object E2ETests : BuildType({
 				export CI=true
 
 				export CHROME_VERSION="87.0.4280.141-1"
-				wget --no-verbose https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${'$'}{CHROME_VERSION}_amd64.deb \
-				apt-get install -y ./google-chrome-stable_${'$'}{CHROME_VERSION}_amd64.deb \
+				wget --no-verbose https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${'$'}{CHROME_VERSION}_amd64.deb
+				apt-get install -y ./google-chrome-stable_${'$'}{CHROME_VERSION}_amd64.deb
 				rm ./google-chrome-stable_${'$'}{CHROME_VERSION}_amd64.deb
 
 				# Start framebuffer
