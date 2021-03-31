@@ -14,12 +14,12 @@ const PROJECT_DIR = path.join( __dirname, '../' );
 const E2E_DIR = path.join( PROJECT_DIR, 'e2e' );
 
 const APP_ARGS = [
-	'--no-sandbox',
 	'--disable-renderer-backgrounding',
 	'--disable-http-cache',
 	'--start-maximized',
 	'--remote-debugging-port=9222',
 	'--disable-dev-shm-usage',
+	'--no-sandbox',
 ];
 
 let BUILT_APP_DIR;
@@ -51,6 +51,7 @@ switch ( process.platform ) {
 
 function spawnDetached( cwd, command, args, output, env ) {
 	const stdio = output ? [ 'ignore', output, output ] : null;
+	console.log( 'Running ', command, args );
 	const app = spawn( command, args, { stdio, detached: true, env, cwd } );
 	app.on( 'error', ( err ) => {
 		throw `failed to initialize command "${ command }": "${ err }"`;
