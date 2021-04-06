@@ -30,8 +30,8 @@
 	"types": "dist/types",
 	"dependencies": {
 		"@babel/runtime": "^7.13.10",
-		"@wordpress/compose": "^3.24.5",
 		"@wordpress/components": "^12.0.8",
+		"@wordpress/compose": "^3.24.5",
 		"@wordpress/icons": "^2.9.1",
 		"@wordpress/react-i18n": "^1.0.0",
 		"classnames": "^2.2.6",

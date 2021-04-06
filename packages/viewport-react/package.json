@@ -18,8 +18,8 @@
 	},
 	"homepage": "https://github.com/Automattic/wp-calypso/tree/HEAD/packages/viewport-react#readme",
 	"dependencies": {
-		"@babel/runtime": "^7.13.10",
 		"@automattic/viewport": "^1.0.0",
+		"@babel/runtime": "^7.13.10",
 		"@wordpress/compose": "^3.24.5"
 	},
 	"peerDependencies": {

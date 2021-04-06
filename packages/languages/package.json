@@ -21,6 +21,5 @@
 		"prepare": "yarn run build",
 		"download": "node bin/download.js",
 		"test": "yarn jest"
-	},
-	"dependencies": {}
+	}
 }
