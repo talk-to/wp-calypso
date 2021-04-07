@@ -11,8 +11,9 @@ import {
 	checkoutPending,
 	checkoutThankYou,
 	gsuiteNudge,
-	upsellNudge,
+	jetpackCheckout,
 	redirectToSupportSession,
+	upsellNudge,
 } from './controller';
 import SiftScience from 'calypso/lib/siftscience';
 import { makeLayout, redirectLoggedOut, render as clientRender } from 'calypso/controller';
@@ -32,6 +33,8 @@ export default function () {
 		page( '/checkout/no-site/:lang?', noSite, checkout, makeLayout, clientRender );
 
 		page( '/checkout*', redirectLoggedOut );
+
+		page( '/checkout*', jetpackCheckout, makeLayout, clientRender );
 
 		return;
 	}

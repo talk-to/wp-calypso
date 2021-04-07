@@ -95,6 +95,12 @@ export function redirectLoggedOut( context, next ) {
 	const userLoggedOut = ! isUserLoggedIn( state );
 
 	if ( userLoggedOut ) {
+		// Allow logged out users to continue if this is the checkout page and it's for a Jetpack purchase
+		if ( context.path.includes( 'jetpack' ) && context.path.includes( 'checkout' ) ) {
+			next();
+			return;
+		}
+
 		const siteFragment = context.params.site || getSiteFragment( context.path );
 
 		const loginParameters = {

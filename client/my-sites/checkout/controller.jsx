@@ -39,6 +39,61 @@ import { TRUENAME_COUPONS } from 'calypso/lib/domains';
 
 const debug = debugFactory( 'calypso:checkout-controller' );
 
+export function jetpackCheckout( context, next ) {
+	const { feature, plan, domainOrProduct, purchaseId } = context.params;
+	console.log( context.params );
+
+	const user = userFactory();
+	const isLoggedOut = ! user.get();
+	const state = context.store.getState();
+	const selectedSite = getSelectedSite( state );
+	const currentUser = getCurrentUser( state );
+	const hasSite = currentUser && currentUser.visible_site_count >= 1;
+	const isDomainOnlyFlow = context.query?.isDomainOnly === '1';
+
+	const product = context.params[ 0 ].split( '/' )[ 2 ];
+	const siteSlug = context.params[ 0 ].split( '/' )[ 1 ];
+
+	// FIXME: Auto-converted from the Flux setTitle action. Please use <DocumentHead> instead.
+	context.store.dispatch( setTitle( i18n.translate( 'Checkout' ) ) );
+
+	setSectionMiddleware( { name: 'checkout' } )( context );
+
+	// NOTE: `context.query.code` is deprecated in favor of `context.query.coupon`.
+	const couponCode = context.query.coupon || context.query.code || getRememberedCoupon();
+
+	const isLoggedOutCart = isLoggedOut && context.pathname.includes( '/checkout/no-site' );
+
+	const searchParams = new URLSearchParams( window.location.search );
+	const isSignupCheckout = searchParams.get( 'signup' ) === '1';
+
+	// Tracks if checkout page was unloaded before purchase completion,
+	// to prevent browser back duplicate sites. Check pau2Xa-1Io-p2#comment-6759.
+	if ( isSignupCheckout && ! isDomainOnlyFlow ) {
+		window.addEventListener( 'beforeunload', function () {
+			const signupDestinationCookieExists = retrieveSignupDestination();
+			signupDestinationCookieExists && setSignupCheckoutPageUnloaded( true );
+		} );
+	}
+
+	context.primary = (
+		<CheckoutSystemDecider
+			productAliasFromUrl={ product }
+			purchaseId={ purchaseId }
+			selectedFeature={ feature }
+			couponCode={ couponCode }
+			isComingFromUpsell={ !! context.query.upgrade }
+			plan={ plan }
+			selectedSite={ selectedSite }
+			redirectTo={ context.query.redirect_to }
+			isLoggedOutCart={ false }
+			isNoSiteCart={ false }
+		/>
+	);
+
+	next();
+}
+
 export function checkout( context, next ) {
 	const { feature, plan, domainOrProduct, purchaseId } = context.params;
 
