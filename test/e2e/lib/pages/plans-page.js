@@ -39,7 +39,7 @@ export default class PlansPage extends AsyncBaseContainer {
 	async waitForComparison() {
 		const plansPageMainCssClass =
 			host === 'WPCOM' ? '.plans-features-main__group' : '.selector__main';
-		return await driverHelper.waitTillPresentAndDisplayed(
+		return await driverHelper.waitUntilLocatedAndVisible(
 			this.driver,
 			by.css( plansPageMainCssClass )
 		);
