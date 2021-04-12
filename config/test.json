@@ -40,6 +40,7 @@
 		"devdocs/redirect-loggedout-homepage": true,
 		"gdpr-banner": false,
 		"google-my-business": false,
+		"google-workspace-migration": true,
 		"gutenboarding/new-launch-mobile": true,
 		"gutenboarding/mshot-preview": true,
 		"gutenboarding/landscape-preview": true,
@@ -108,6 +109,7 @@
 		"upgrades/upcoming-renewals-notices": true,
 		"upgrades/wpcom-monthly-plans": true,
 		"wpcom-user-bootstrap": false,
-		"woocommerce/extension-wcservices": true
+		"woocommerce/extension-wcservices": true,
+		"wordpress-action-search": false
 	}
 }

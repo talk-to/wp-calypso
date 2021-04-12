@@ -41,6 +41,7 @@
 		"external-media": true,
 		"external-media/google-photos": true,
 		"external-media/free-photo-library": true,
+		"google-workspace-migration": true,
 		"gdpr-banner": false,
 		"help": true,
 		"inline-help": true,
@@ -157,6 +158,7 @@
 		"woocommerce/extension-wcservices": true,
 		"woocommerce/extension-wcservices/international-labels": true,
 		"woocommerce/store-on-non-atomic-sites": true,
-		"wpcom-user-bootstrap": false
+		"wpcom-user-bootstrap": false,
+		"wordpress-action-search": false
 	}
 }

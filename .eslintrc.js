@@ -68,7 +68,11 @@ module.exports = {
 		},
 		{
 			plugins: [ 'mocha' ],
-			files: [ 'test/e2e/**/*' ],
+			files: [
+				'test/e2e/**/*',
+				'packages/magellan-mocha-plugin/test/**/*',
+				'packages/magellan-mocha-plugin/test_support/**/*',
+			],
 			rules: {
 				'import/no-nodejs-modules': 'off',
 				'mocha/no-exclusive-tests': 'error',
@@ -398,6 +402,7 @@ module.exports = {
 		'you-dont-need-lodash-underscore/drop-right': 'error',
 		'you-dont-need-lodash-underscore/ends-with': 'error',
 		'you-dont-need-lodash-underscore/entries': 'error',
+		'you-dont-need-lodash-underscore/every': 'error',
 		'you-dont-need-lodash-underscore/extend-own': 'error',
 		'you-dont-need-lodash-underscore/fill': 'error',
 		'you-dont-need-lodash-underscore/foldl': 'error',
@@ -425,6 +430,7 @@ module.exports = {
 		'you-dont-need-lodash-underscore/split': 'error',
 		'you-dont-need-lodash-underscore/take-right': 'error',
 		'you-dont-need-lodash-underscore/to-lower': 'error',
+		'you-dont-need-lodash-underscore/to-pairs': 'error',
 		'you-dont-need-lodash-underscore/to-upper': 'error',
 		'you-dont-need-lodash-underscore/uniq': 'error',
 	},

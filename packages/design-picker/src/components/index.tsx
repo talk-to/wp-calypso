@@ -6,14 +6,14 @@
 import React from 'react';
 import classnames from 'classnames';
 import { Tooltip } from '@wordpress/components';
-import { useI18n } from '@automattic/react-i18n';
+import { useI18n } from '@wordpress/react-i18n';
 import { isEnabled } from '@automattic/calypso-config';
 
 /**
  * Internal dependencies
  */
 import MShotsImage from './mshots-image';
-import { availableDesigns, getDesignImageUrl, getDesignUrl, mShotOptions } from '../utils';
+import { getAvailableDesigns, getDesignImageUrl, getDesignUrl, mShotOptions } from '../utils';
 import type { Design } from '../types';
 
 /**
@@ -34,7 +34,10 @@ interface Props {
 const DesignPicker: React.FC< Props > = ( {
 	locale,
 	onSelect,
-	designs = availableDesigns.featured,
+	designs = getAvailableDesigns().featured.filter(
+		// By default, exclude anchorfm-specific designs
+		( design ) => design.features.findIndex( ( f ) => f === 'anchorfm' ) < 0
+	),
 	premiumBadge,
 	isGridMinimal,
 } ) => {

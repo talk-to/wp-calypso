@@ -153,6 +153,7 @@
 		"reader": true,
 		"reader/comment-polling": false,
 		"reader/full-errors": true,
+		"reader/gutenberg-for-comments": false,
 		"reader/list-management": true,
 		"reader/seen-posts": true,
 		"recommend-plugins": true,
@@ -213,6 +214,7 @@
 		"woocommerce/extension-wcservices/international-labels": true,
 		"woocommerce/onboarding-oauth": true,
 		"woocommerce/store-on-non-atomic-sites": true,
-		"wpcom-user-bootstrap": false
+		"wpcom-user-bootstrap": false,
+		"wordpress-action-search": false
 	}
 }
