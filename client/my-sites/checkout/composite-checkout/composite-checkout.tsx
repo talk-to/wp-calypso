@@ -21,6 +21,7 @@ import type { ResponseCart, ResponseCartProduct } from '@automattic/shopping-car
 import colorStudio from '@automattic/color-studio';
 import { useStripe } from '@automattic/calypso-stripe';
 import type { PaymentCompleteCallbackArguments } from '@automattic/composite-checkout';
+import type { ManagedContactDetails } from '@automattic/wpcom-checkout';
 
 /**
  * Internal dependencies
@@ -73,7 +74,6 @@ import {
 	applyContactDetailsRequiredMask,
 	domainRequiredContactDetails,
 	taxRequiredContactDetails,
-	ManagedContactDetails,
 } from './types/wpcom-store-state';
 import { StoredCard } from './types/stored-cards';
 import { CountryListItem } from './types/country-list-item';
@@ -367,9 +367,9 @@ export default function CompositeCheckout( {
 		// Only wait for apple pay to load if we are using apple pay
 		( allowedPaymentMethods.includes( 'apple-pay' ) && isApplePayLoading );
 
-	const contactInfo: ManagedContactDetails | undefined = select( 'wpcom' )?.getContactInfo();
-	const countryCode: string = contactInfo?.countryCode?.value ?? '';
-	const subdivisionCode: string = contactInfo?.state?.value ?? '';
+	const contactDetails: ManagedContactDetails | undefined = select( 'wpcom' )?.getContactInfo();
+	const countryCode: string = contactDetails?.countryCode?.value ?? '';
+	const subdivisionCode: string = contactDetails?.state?.value ?? '';
 
 	const paymentMethods = arePaymentMethodsLoading
 		? []
@@ -439,8 +439,10 @@ export default function CompositeCheckout( {
 			siteId,
 			siteSlug,
 			stripeConfiguration,
+			contactDetails,
 		} ),
 		[
+			contactDetails,
 			createUserAndSiteBeforeTransaction,
 			getThankYouUrl,
 			includeDomainDetails,
@@ -454,11 +456,11 @@ export default function CompositeCheckout( {
 		]
 	);
 
-	const domainDetails = getDomainDetails( {
+	const domainDetails = getDomainDetails( contactDetails, {
 		includeDomainDetails,
 		includeGSuiteDetails,
 	} );
-	const postalCode = getPostalCode();
+	const postalCode = getPostalCode( contactDetails );
 
 	const paymentProcessors = useMemo(
 		() => ( {
