@@ -128,6 +128,14 @@ export default function () {
 	);
 
 	page(
+		'/jetpack/connect/userless',
+		controller.setMasterbar,
+		controller.userless,
+		makeLayout,
+		clientRender
+	);
+
+	page(
 		`/jetpack/connect/:type(${ planTypeString })?/${ locale }`,
 		controller.redirectWithoutLocaleIfLoggedIn,
 		controller.persistMobileAppFlow,

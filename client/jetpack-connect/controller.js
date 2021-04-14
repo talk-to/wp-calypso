@@ -287,6 +287,15 @@ export function connect( context, next ) {
 	next();
 }
 
+export function userless( context, next ) {
+	context.primary = (
+		<div>
+			<p>{ 'Userless connect' }</p>
+		</div>
+	);
+	next();
+}
+
 export function instructions( context, next ) {
 	recordPageView( 'jetpack/connect/instructions', 'Jetpack Manual Install Instructions' );
 
