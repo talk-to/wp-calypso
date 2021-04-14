@@ -102,6 +102,7 @@ export default function usePrepareProductsForCart( {
 		isJetpackNotAtomic,
 		isPrivate,
 		addHandler,
+		isJetpackCheckout,
 	} );
 	useAddRenewalItems( {
 		originalPurchaseId,
@@ -340,12 +341,14 @@ function useAddProductFromSlug( {
 	isJetpackNotAtomic,
 	isPrivate,
 	addHandler,
+	isJetpackCheckout,
 }: {
 	productAliasFromUrl: string | undefined | null;
 	dispatch: ( action: PreparedProductsAction ) => void;
 	isJetpackNotAtomic: boolean;
 	isPrivate: boolean;
 	addHandler: AddHandler;
+	isJetpackCheckout?: boolean;
 } ) {
 	const products: Record<
 		string,
@@ -396,6 +399,7 @@ function useAddProductFromSlug( {
 				productSlug: product.product_slug,
 				productAlias: product.internal_product_alias,
 				productId: product.product_id,
+				isJetpackCheckout,
 			} )
 		);
 
@@ -509,10 +513,12 @@ function createItemToAddToCart( {
 	productSlug,
 	productAlias,
 	productId,
+	isJetpackCheckout,
 }: {
 	productSlug: string;
 	productId: number;
 	productAlias: string;
+	isJetpackCheckout?: boolean;
 } ): RequestCartProduct {
 	debug( 'creating product with', productSlug, productAlias, productId );
 
@@ -544,13 +550,13 @@ function createItemToAddToCart( {
 		createRequestCartProduct( {
 			product_id: productId,
 			product_slug: productSlug,
-		} )
+		} ), { isJetpackCheckout }
 	);
 }
 
-function addContextToProduct( product: RequestCartProduct ): RequestCartProduct {
+function addContextToProduct( product: RequestCartProduct, options?: Object ): RequestCartProduct {
 	return {
 		...product,
-		extra: { ...product.extra, context: 'calypstore' },
+		extra: Object.assign( { ...product.extra, context: 'calypstore' }, options ),
 	};
 }
