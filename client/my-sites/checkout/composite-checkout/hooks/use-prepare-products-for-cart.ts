@@ -50,7 +50,7 @@ export default function usePrepareProductsForCart( {
 	siteSlug,
 	isLoggedOutCart,
 	isNoSiteCart,
-	isJetpackCheckout,
+	isJetpackUserlessCheckout,
 }: {
 	productAliasFromUrl: string | null | undefined;
 	purchaseId: string | number | null | undefined;
@@ -60,7 +60,7 @@ export default function usePrepareProductsForCart( {
 	siteSlug: string | undefined;
 	isLoggedOutCart?: boolean;
 	isNoSiteCart?: boolean;
-	isJetpackCheckout?: boolean;
+	isJetpackUserlessCheckout?: boolean;
 } ): PreparedProductsForCart {
 	const [ state, dispatch ] = useReducer( preparedProductsReducer, initialPreparedProductsState );
 
@@ -73,8 +73,8 @@ export default function usePrepareProductsForCart( {
 		isLoggedOutCart,
 		'and isNoSiteCart',
 		isNoSiteCart,
-		'and isJetpackCheckout',
-		isJetpackCheckout
+		'and isJetpackUserlessCheckout',
+		isJetpackUserlessCheckout
 	);
 
 	useFetchProductsIfNotLoaded();
@@ -85,7 +85,7 @@ export default function usePrepareProductsForCart( {
 		productAliasFromUrl,
 		isLoggedOutCart,
 		isNoSiteCart,
-		isJetpackCheckout,
+		isJetpackUserlessCheckout,
 	} );
 	debug( 'isLoading', state.isLoading );
 	debug( 'handler is', addHandler );
@@ -102,7 +102,7 @@ export default function usePrepareProductsForCart( {
 		isJetpackNotAtomic,
 		isPrivate,
 		addHandler,
-		isJetpackCheckout,
+		isJetpackUserlessCheckout,
 	} );
 	useAddRenewalItems( {
 		originalPurchaseId,
@@ -154,16 +154,16 @@ function chooseAddHandler( {
 	productAliasFromUrl,
 	isLoggedOutCart,
 	isNoSiteCart,
-	isJetpackCheckout,
+	isJetpackUserlessCheckout,
 }: {
 	isLoading: boolean;
 	originalPurchaseId: string | number | null | undefined;
 	productAliasFromUrl: string | null | undefined;
 	isLoggedOutCart?: boolean;
 	isNoSiteCart?: boolean;
-	isJetpackCheckout?: boolean;
+	isJetpackUserlessCheckout?: boolean;
 } ): AddHandler {
-	if ( isJetpackCheckout ) {
+	if ( isJetpackUserlessCheckout ) {
 		return 'addProductFromSlug';
 	}
 
@@ -341,14 +341,14 @@ function useAddProductFromSlug( {
 	isJetpackNotAtomic,
 	isPrivate,
 	addHandler,
-	isJetpackCheckout,
+	isJetpackUserlessCheckout,
 }: {
 	productAliasFromUrl: string | undefined | null;
 	dispatch: ( action: PreparedProductsAction ) => void;
 	isJetpackNotAtomic: boolean;
 	isPrivate: boolean;
 	addHandler: AddHandler;
-	isJetpackCheckout?: boolean;
+	isJetpackUserlessCheckout?: boolean;
 } ) {
 	const products: Record<
 		string,
@@ -399,7 +399,7 @@ function useAddProductFromSlug( {
 				productSlug: product.product_slug,
 				productAlias: product.internal_product_alias,
 				productId: product.product_id,
-				isJetpackCheckout,
+				isJetpackUserlessCheckout,
 			} )
 		);
 
@@ -435,7 +435,7 @@ function useAddProductFromSlug( {
 		isJetpackNotAtomic,
 		productAliasFromUrl,
 		validProducts,
-		isJetpackCheckout,
+		isJetpackUserlessCheckout,
 		dispatch,
 	] );
 }
@@ -514,12 +514,12 @@ function createItemToAddToCart( {
 	productSlug,
 	productAlias,
 	productId,
-	isJetpackCheckout,
+	isJetpackUserlessCheckout,
 }: {
 	productSlug: string;
 	productId: number;
 	productAlias: string;
-	isJetpackCheckout?: boolean;
+	isJetpackUserlessCheckout?: boolean;
 } ): RequestCartProduct {
 	debug( 'creating product with', productSlug, productAlias, productId );
 
@@ -552,7 +552,7 @@ function createItemToAddToCart( {
 			product_id: productId,
 			product_slug: productSlug,
 		} ),
-		{ isJetpackCheckout }
+		{ isJetpackUserlessCheckout }
 	);
 }
 
