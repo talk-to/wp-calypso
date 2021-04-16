@@ -51,6 +51,7 @@ export default function usePrepareProductsForCart( {
 	isLoggedOutCart,
 	isNoSiteCart,
 	isJetpackUserlessCheckout,
+	jetpackSiteSlug,
 }: {
 	productAliasFromUrl: string | null | undefined;
 	purchaseId: string | number | null | undefined;
@@ -61,6 +62,7 @@ export default function usePrepareProductsForCart( {
 	isLoggedOutCart?: boolean;
 	isNoSiteCart?: boolean;
 	isJetpackUserlessCheckout?: boolean;
+	jetpackSiteSlug?: string;
 } ): PreparedProductsForCart {
 	const [ state, dispatch ] = useReducer( preparedProductsReducer, initialPreparedProductsState );
 
@@ -103,6 +105,7 @@ export default function usePrepareProductsForCart( {
 		isPrivate,
 		addHandler,
 		isJetpackUserlessCheckout,
+		jetpackSiteSlug,
 	} );
 	useAddRenewalItems( {
 		originalPurchaseId,
@@ -342,6 +345,7 @@ function useAddProductFromSlug( {
 	isPrivate,
 	addHandler,
 	isJetpackUserlessCheckout,
+	jetpackSiteSlug,
 }: {
 	productAliasFromUrl: string | undefined | null;
 	dispatch: ( action: PreparedProductsAction ) => void;
@@ -349,6 +353,7 @@ function useAddProductFromSlug( {
 	isPrivate: boolean;
 	addHandler: AddHandler;
 	isJetpackUserlessCheckout?: boolean;
+	jetpackSiteSlug?: string;
 } ) {
 	const products: Record<
 		string,
@@ -400,6 +405,7 @@ function useAddProductFromSlug( {
 				productAlias: product.internal_product_alias,
 				productId: product.product_id,
 				isJetpackUserlessCheckout,
+				jetpackSiteSlug,
 			} )
 		);
 
@@ -515,11 +521,13 @@ function createItemToAddToCart( {
 	productAlias,
 	productId,
 	isJetpackUserlessCheckout,
+	jetpackSiteSlug,
 }: {
 	productSlug: string;
 	productId: number;
 	productAlias: string;
 	isJetpackUserlessCheckout?: boolean;
+	jetpackSiteSlug?: string;
 } ): RequestCartProduct {
 	debug( 'creating product with', productSlug, productAlias, productId );
 
@@ -551,17 +559,16 @@ function createItemToAddToCart( {
 		createRequestCartProduct( {
 			product_id: productId,
 			product_slug: productSlug,
-		} ),
-		{ isJetpackUserlessCheckout }
+			extra: { isJetpackUserlessCheckout, jetpackSiteSlug }
+		} )
 	);
 }
 
 function addContextToProduct(
 	product: RequestCartProduct,
-	options?: Record< string, unknown >
 ): RequestCartProduct {
 	return {
 		...product,
-		extra: Object.assign( { ...product.extra, context: 'calypstore' }, options ),
+		extra: Object.assign( { ...product.extra, context: 'calypstore' } ),
 	};
 }
