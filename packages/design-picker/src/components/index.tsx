@@ -29,6 +29,7 @@ interface Props {
 	designs?: Design[];
 	premiumBadge?: React.ReactNode;
 	isGridMinimal?: boolean;
+	theme?: 'dark' | 'light';
 }
 
 const DesignPicker: React.FC< Props > = ( {
@@ -40,11 +41,12 @@ const DesignPicker: React.FC< Props > = ( {
 	),
 	premiumBadge,
 	isGridMinimal,
+	theme = 'light',
 } ) => {
 	const { __ } = useI18n();
 
 	return (
-		<div className="design-picker">
+		<div className={ classnames( 'design-picker', `theme-${ theme }` ) }>
 			<div className={ isGridMinimal ? 'design-picker__grid-minimal' : 'design-picker__grid' }>
 				{ designs.map( ( design ) => (
 					<button
