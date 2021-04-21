@@ -3,7 +3,7 @@
  */
 import classNames from 'classnames';
 import { TranslateResult, useTranslate } from 'i18n-calypso';
-import React, { createElement, ReactNode } from 'react';
+import React, { createElement, ReactNode, useEffect, useRef } from 'react';
 import { Button, ProductIcon } from '@automattic/components';
 
 /**
@@ -20,7 +20,11 @@ import InfoPopover from 'calypso/components/info-popover';
  * Type dependencies
  */
 import type { Moment } from 'moment';
-import type { Duration, PurchaseCallback } from 'calypso/my-sites/plans/jetpack-plans/types';
+import type {
+	Duration,
+	PurchaseCallback,
+	ScrollCardIntoViewCallback,
+} from 'calypso/my-sites/plans/jetpack-plans/types';
 
 /**
  * Style dependencies
@@ -37,12 +41,14 @@ type OwnProps = {
 	currencyCode?: string | null;
 	originalPrice: number;
 	discountedPrice?: number;
+	belowPriceText?: TranslateResult;
 	billingTerm: Duration;
 	buttonLabel: TranslateResult;
 	buttonPrimary: boolean;
 	onButtonClick: PurchaseCallback;
 	expiryDate?: Moment;
 	isFeatured?: boolean;
+	isFree?: boolean;
 	isOwned?: boolean;
 	isIncludedInPlan?: boolean;
 	isDeprecated?: boolean;
@@ -52,6 +58,7 @@ type OwnProps = {
 	displayFrom?: boolean;
 	tooltipText?: TranslateResult | ReactNode;
 	aboveButtonText?: TranslateResult | ReactNode;
+	scrollCardIntoView?: ScrollCardIntoViewCallback;
 };
 
 export type Props = OwnProps & Partial< FeaturesProps >;
@@ -190,11 +197,20 @@ const JetpackProductCard: React.FC< Props > = ( {
 	belowPriceText,
 	tooltipText,
 	aboveButtonText = null,
+	scrollCardIntoView,
 }: Props ) => {
 	const translate = useTranslate();
 	const parsedHeadingLevel = Number.isFinite( headingLevel )
 		? Math.min( Math.max( Math.floor( headingLevel as number ), 1 ), 6 )
 		: 2;
+
+	const anchorRef = useRef< HTMLDivElement >( null );
+
+	useEffect( () => {
+		if ( anchorRef && anchorRef.current ) {
+			scrollCardIntoView && scrollCardIntoView( anchorRef.current, productSlug );
+		}
+	}, [] );
 
 	return (
 		<div
@@ -208,6 +224,7 @@ const JetpackProductCard: React.FC< Props > = ( {
 			} ) }
 			data-e2e-product-slug={ productSlug }
 		>
+			<div className="jetpack-product-card__scroll-anchor" ref={ anchorRef }></div>
 			{ isFeatured && (
 				<div className="jetpack-product-card__header">
 					<img className="jetpack-product-card__header-icon" src={ starIcon } alt="" />

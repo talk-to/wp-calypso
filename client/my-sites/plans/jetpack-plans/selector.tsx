@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 /**
@@ -29,6 +29,7 @@ import ProductGrid from './product-grid';
  */
 import type {
 	Duration,
+	ScrollCardIntoViewCallback,
 	SelectorPageProps,
 	SelectorProduct,
 	PurchaseCallback,
@@ -43,6 +44,7 @@ const SelectorPage: React.FC< SelectorPageProps > = ( {
 	urlQueryArgs,
 	header,
 	footer,
+	highlightedProducts = [],
 }: SelectorPageProps ) => {
 	const dispatch = useDispatch();
 
@@ -54,6 +56,21 @@ const SelectorPage: React.FC< SelectorPageProps > = ( {
 	useEffect( () => {
 		setDuration( defaultDuration );
 	}, [ defaultDuration ] );
+
+	const scrollCardIntoView: ScrollCardIntoViewCallback = useCallback(
+		( element, productSlug ) => {
+			if ( highlightedProducts.includes( productSlug ) ) {
+				// Timeout to make sure everything has rendered before
+				// before scrolling the element into view.
+				setTimeout( () => {
+					element.scrollIntoView( {
+						behavior: 'smooth',
+					} );
+				}, 0 );
+			}
+		},
+		[ highlightedProducts ]
+	);
 
 	// Sends a user to a page based on whether there are subtypes.
 	const selectProduct: PurchaseCallback = (
@@ -141,6 +158,7 @@ const SelectorPage: React.FC< SelectorPageProps > = ( {
 				onSelectProduct={ selectProduct }
 				urlQueryArgs={ urlQueryArgs }
 				onDurationChange={ trackDurationChange }
+				scrollCardIntoView={ scrollCardIntoView }
 			/>
 
 			<QueryProductsList />
