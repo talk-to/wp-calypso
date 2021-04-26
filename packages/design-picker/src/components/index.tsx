@@ -23,7 +23,7 @@ import './style.scss';
 
 const makeOptionId = ( { slug }: Design ): string => `design-picker__option-name__${ slug }`;
 
-interface Props {
+export interface Props {
 	locale: string;
 	onSelect: ( design: Design ) => void;
 	designs?: Design[];
@@ -46,7 +46,7 @@ const DesignPicker: React.FC< Props > = ( {
 	const { __ } = useI18n();
 
 	return (
-		<div className={ classnames( 'design-picker', `theme-${ theme }` ) }>
+		<div className={ classnames( 'design-picker', `design-picker--theme-${ theme }` ) }>
 			<div className={ isGridMinimal ? 'design-picker__grid-minimal' : 'design-picker__grid' }>
 				{ designs.map( ( design ) => (
 					<button

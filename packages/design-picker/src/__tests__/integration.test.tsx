@@ -11,6 +11,7 @@ import '@automattic/calypso-config';
 import DesignPicker from '../components';
 import { getAvailableDesigns } from '../utils';
 import type { Design } from '../types';
+import type { Props } from '../components';
 
 jest.mock( `@automattic/calypso-config`, () => ( {
 	isEnabled: jest.fn().mockImplementation( ( feature: string ) => {
@@ -45,4 +46,18 @@ describe( '<DesignPicker /> integration', () => {
 			)
 		);
 	} );
+
+	( [ 'light', 'dark' ] as Props[ 'theme' ][] ).forEach( ( theme ) =>
+		it( `Should have design-picker--theme-${ theme } titles when theme prop is set to ${ theme }`, async () => {
+			const mockedOnSelectCallback = jest.fn();
+
+			const renderedContainer = render(
+				<DesignPicker locale={ MOCK_LOCALE } theme={ theme } onSelect={ mockedOnSelectCallback } />
+			);
+
+			expect( renderedContainer.container.firstChild ).toHaveClass(
+				`design-picker design-picker--theme-${ theme }`
+			);
+		} )
+	);
 } );
