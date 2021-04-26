@@ -211,7 +211,6 @@ private object Gutenberg : BuildType({
 				export BROWSERSIZE=desktop
 				export BROWSERLOCALE=en
 				export NODE_CONFIG="{\"calypsoBaseURL\":\"${'$'}{URL}\"}"
-				export RECORD_HOOK_FAILURES=true
 
 				# Instructs Magellan to not hide the output from individual `mocha` processes. This is required for
 				# mocha-teamcity-reporter to work.
