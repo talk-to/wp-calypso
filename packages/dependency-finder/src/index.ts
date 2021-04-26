@@ -58,7 +58,6 @@ const monorepoPackages = [
 	'packages/photon',
 	'packages/plans-grid',
 	'packages/popup-monitor',
-	'packages/react-i18n',
 	'packages/request-external-access',
 	'packages/retarget-open-prs',
 	'packages/search',
