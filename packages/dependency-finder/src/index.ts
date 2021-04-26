@@ -18,7 +18,13 @@ const packageMapPath = path.join(
 	path.dirname( fileURLToPath( import.meta.url ) ),
 	'../../../../package-map.json'
 );
-const packageMap = JSON.parse( fs.readFileSync( packageMapPath, 'utf8' ) );
+
+type PackageMapEntry = {
+	path: string;
+	additionalEntryPoints: Array< string > | undefined;
+};
+type PackageMap = Array< PackageMapEntry >;
+const packageMap: PackageMap = JSON.parse( fs.readFileSync( packageMapPath, 'utf8' ) );
 
 const monorepoPackages = [
 	'packages/accessible-focus',
@@ -81,33 +87,53 @@ const monorepoPackages = [
 	'packages/wpcom.js',
 ].map( ( pkg ) => path.resolve( pkg ) );
 
+const parsePackage = async ( { path: pkgPath, additionalEntryPoints }: PackageMapEntry ) => {
+	const absolutePkgPath = path.resolve( pkgPath );
+
+	const { missing, packages, modules } = await findDependencies( {
+		pkg: absolutePkgPath,
+		additionalEntryPoints,
+		monorepoPackages,
+	} );
+	const { stdout } = await exec(
+		`find ${ absolutePkgPath } -type f -not -path '*/node_modules/*'`
+	);
+	const allFiles = stdout.trim().split( '\n' );
+	const unknownFiles = allFiles.filter( ( file ) => ! modules.includes( file ) );
+
+	console.log( 'Package:' );
+	console.log( '  ' + pkgPath );
+	console.log( 'Missing files:' );
+	console.log( missing.length ? missing.map( ( m ) => '  ' + m ).join( '\n' ) : '  -' );
+	console.log( 'Packages:' );
+	console.log( packages.length ? packages.map( ( m ) => '  ' + m ).join( '\n' ) : '  -' );
+	console.log( 'Found files:' );
+	console.log( modules.length ? modules.map( ( m ) => '  ' + m ).join( '\n' ) : '  -' );
+	console.log( 'Unkown files:' );
+	console.log( unknownFiles.length ? unknownFiles.map( ( m ) => '  ' + m ).join( '\n' ) : '  -' );
+	console.log();
+	console.log();
+};
+
+const parseAllPackages = async () => {
+	for ( const packageEntry of packageMap ) {
+		await parsePackage( packageEntry );
+	}
+};
+
+const parseOnePackage = async ( packagePath: string ) => {
+	const packageEntry = packageMap.find( ( { path } ) => path === packagePath );
+	if ( packageEntry ) {
+		await parsePackage( packageEntry );
+	}
+};
+
 const main = async () => {
-	for ( const { path: pkgPath, additionalEntryPoints } of packageMap ) {
-		const absolutePkgPath = path.resolve( pkgPath );
-
-		const { missing, packages, modules } = await findDependencies( {
-			pkg: absolutePkgPath,
-			additionalEntryPoints,
-			monorepoPackages,
-		} );
-		const { stdout } = await exec(
-			`find ${ absolutePkgPath } -type f -not -path '*/node_modules/*'`
-		);
-		const allFiles = stdout.trim().split( '\n' );
-		const unknownFiles = allFiles.filter( ( file ) => ! modules.includes( file ) );
-
-		console.log( 'Package:' );
-		console.log( '  ' + pkgPath );
-		console.log( 'Missing files:' );
-		console.log( missing.length ? missing.map( ( m ) => '  ' + m ).join( '\n' ) : '  -' );
-		console.log( 'Packages:' );
-		console.log( packages.length ? packages.map( ( m ) => '  ' + m ).join( '\n' ) : '  -' );
-		console.log( 'Found files:' );
-		console.log( modules.length ? modules.map( ( m ) => '  ' + m ).join( '\n' ) : '  -' );
-		console.log( 'Unkown files:' );
-		console.log( unknownFiles.length ? unknownFiles.map( ( m ) => '  ' + m ).join( '\n' ) : '  -' );
-		console.log();
-		console.log();
+	const packageToParse = process.argv.slice( 2 )[ 0 ];
+	if ( packageToParse ) {
+		parseOnePackage( packageToParse );
+	} else {
+		parseAllPackages();
 	}
 };
 
