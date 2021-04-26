@@ -153,6 +153,7 @@ export async function startBrowser( {
 						default_content_setting_values: { cookies: 1 },
 						// 0 = allow 3pc, 1 = block 3pc, 2 = block 3pc in incognito (default)
 						cookie_controls_mode: 1,
+						block_third_party_cookies: true, // old chrome version?
 					};
 				}
 
