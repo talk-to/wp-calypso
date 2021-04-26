@@ -125,7 +125,7 @@ afterEach( async function () {
 saveConsoleLog();
 
 // Update Sauce Job Status locally
-afterEach( function () {
+afterEach( 'Update Sauce Job Status', function () {
 	const driver = global.__BROWSER__;
 
 	if ( config.has( 'sauce' ) && config.get( 'sauce' ) ) {
@@ -134,14 +134,14 @@ afterEach( function () {
 } );
 
 // Stop video recording if the test has failed
-afterEach( async function () {
+afterEach( 'Stop video recording', async function () {
 	if ( this.currentTest && this.currentTest.state === 'failed' ) {
 		await videoRecorder.stopVideo( this.currentTest );
 	}
 } );
 
 // Push SauceLabs job status update (if applicable)
-after( async function () {
+after( 'Push SauceLabs job status update', async function () {
 	await this.timeout( afterHookTimeoutMS );
 	const driver = global.__BROWSER__;
 
@@ -151,7 +151,7 @@ after( async function () {
 } );
 
 // Quit browser
-after( function () {
+after( 'Quit browser', function () {
 	if ( ! global.__BROWSER__ ) {
 		// Early return if there's no browser, i.e. when all specs were skipped.
 		return;
@@ -170,11 +170,11 @@ after( function () {
 } );
 
 // Stop video
-after( async function () {
+after( 'Stop video', async function () {
 	await videoRecorder.stopVideo();
 } );
 
 // Stop xvfb display
-after( async function () {
+after( 'Stop xvfb display', async function () {
 	await videoRecorder.stopDisplay();
 } );
