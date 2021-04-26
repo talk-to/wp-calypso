@@ -11,7 +11,7 @@ export default () => {
 	after( 'Save browser logs', async function () {
 		const driver = global.__BROWSER__;
 
-		await Promise.allSettled(
+		return await Promise.allSettled(
 			[
 				[ getBrowserLogs( driver ), 'console.log' ],
 				[ getPerformanceLogs( driver ), 'performance.log' ],
