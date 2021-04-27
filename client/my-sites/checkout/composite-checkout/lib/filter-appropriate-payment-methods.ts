@@ -68,6 +68,10 @@ export default function filterAppropriatePaymentMethods( {
 				// If the free payment method still exists here (see above filter), it's enabled
 				return true;
 			}
+			if ( slug === 'google-pay' ) {
+				// FIXME: DO NOT MERGE; this is for testing google pay
+				return true;
+			}
 			return isPaymentMethodEnabled( slug, allowedPaymentMethods );
 		} );
 }
