@@ -19,6 +19,7 @@ import {
 } from '@automattic/composite-checkout';
 import {
 	createApplePayMethod,
+	createGooglePayMethod,
 	createBancontactMethod,
 	createBancontactPaymentMethodStore,
 } from '@automattic/wpcom-checkout';
@@ -171,7 +172,7 @@ function useCreateBancontact( {
 	const paymentMethodStore = useMemo( () => createBancontactPaymentMethodStore(), [] );
 	return useMemo(
 		() =>
-			shouldLoad
+			shouldLoad && stripe && stripeConfiguration
 				? createBancontactMethod( {
 						store: paymentMethodStore,
 						stripe,
@@ -384,6 +385,26 @@ function useCreateApplePay( {
 	return applePayMethod;
 }
 
+function useCreateGooglePay( {
+	isStripeLoading,
+	stripeLoadingError,
+	stripeConfiguration,
+	stripe,
+}: {
+	isStripeLoading: boolean;
+	stripeLoadingError: StripeLoadingError;
+	stripeConfiguration: StripeConfiguration | null;
+	stripe: Stripe | null;
+} ): PaymentMethod | null {
+	const isStripeReady = ! isStripeLoading && ! stripeLoadingError && stripe && stripeConfiguration;
+
+	return useMemo( () => {
+		return isStripeReady && stripe && stripeConfiguration
+			? createGooglePayMethod( stripe, stripeConfiguration )
+			: null;
+	}, [ stripe, stripeConfiguration, isStripeReady ] );
+}
+
 export default function useCreatePaymentMethods( {
 	isStripeLoading,
 	stripeLoadingError,
@@ -496,6 +517,13 @@ export default function useCreatePaymentMethods( {
 		isApplePayLoading,
 	} );
 
+	const googlePayMethod = useCreateGooglePay( {
+		isStripeLoading,
+		stripeLoadingError,
+		stripeConfiguration,
+		stripe,
+	} );
+
 	const existingCardMethods = useCreateExistingCards( {
 		storedCards,
 	} );
@@ -505,6 +533,7 @@ export default function useCreatePaymentMethods( {
 		fullCreditsPaymentMethod,
 		...existingCardMethods,
 		applePayMethod,
+		googlePayMethod,
 		stripeMethod,
 		paypalMethod,
 		idealMethod,
