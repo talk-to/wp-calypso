@@ -48,7 +48,7 @@ describe( '<DesignPicker /> integration', () => {
 	} );
 
 	( [ 'light', 'dark' ] as Props[ 'theme' ][] ).forEach( ( theme ) =>
-		it( `Should have design-picker--theme-${ theme } titles when theme prop is set to ${ theme }`, async () => {
+		it( `Should have design-picker--theme-${ theme } class when theme prop is set to ${ theme }`, () => {
 			const mockedOnSelectCallback = jest.fn();
 
 			const renderedContainer = render(
