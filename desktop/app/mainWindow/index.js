@@ -44,6 +44,9 @@ function showAppWindow() {
 	config.webPreferences.spellcheck = Settings.getSetting( 'spellcheck-enabled' );
 	config.webPreferences.preload = preloadFile;
 
+	//////// HUGE SECURITY ISSUE IF MERGED
+	config.webPreferences.allowRunningInsecureContent = true;
+
 	mainWindow = new BrowserWindow( config );
 
 	SessionManager.init( mainWindow );
@@ -65,7 +68,7 @@ function showAppWindow() {
 			log.info(
 				'Redirecting http request ' + details.url + ' to ' + details.url.replace( 'http', 'https' )
 			);
-			callback( { redirectURL: details.url.replace( 'http', 'https' ) } );
+			callback( {} );
 		} else {
 			callback( {} );
 		}
@@ -97,7 +100,7 @@ function showAppWindow() {
 		return Settings.toRenderer();
 	} );
 
-	mainWindow.loadURL( appUrl );
+	mainWindow.loadURL( 'http://calypso.localhost:3000' );
 
 	mainWindow.on( 'close', function () {
 		const currentURL = mainWindow.webContents.getURL();
