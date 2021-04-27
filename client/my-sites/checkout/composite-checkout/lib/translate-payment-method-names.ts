@@ -94,6 +94,7 @@ export function translateCheckoutPaymentMethodToWpcomPaymentMethod(
 		case 'wechat':
 			return 'WPCOM_Billing_Stripe_Source_Wechat';
 		case 'apple-pay':
+		case 'google-pay':
 			return 'WPCOM_Billing_Web_Payment';
 		case 'full-credits':
 			return 'WPCOM_Billing_WPCOM';
@@ -147,6 +148,7 @@ export function readCheckoutPaymentMethodSlug( slug: string ): CheckoutPaymentMe
 		case 'stripe-three-d-secure':
 		case 'wechat':
 		case 'apple-pay':
+		case 'google-pay':
 		case 'full-credits':
 		case 'free-purchase':
 			return slug;
@@ -166,6 +168,7 @@ export function translateCheckoutPaymentMethodToTracksPaymentMethod(
 		case 'card':
 			return 'credit_card';
 		case 'apple-pay':
+		case 'google-pay':
 			return 'web_payment';
 	}
 	return snakeCase( paymentMethodSlug );
