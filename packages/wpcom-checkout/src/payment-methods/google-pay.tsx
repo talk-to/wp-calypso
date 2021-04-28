@@ -60,7 +60,6 @@ export function GooglePaySubmitButton( {
 } ): JSX.Element {
 	const { __ } = useI18n();
 	const paymentRequestOptions = usePaymentRequestOptions( stripeConfiguration );
-	const [ items, total ] = useLineItems();
 	const onEvent = useEvents();
 	const onSubmit = useCallback(
 		( { name, paymentMethodToken } ) => {
@@ -75,12 +74,10 @@ export function GooglePaySubmitButton( {
 				stripe,
 				paymentMethodToken,
 				name,
-				items,
-				total,
 				stripeConfiguration,
 			} );
 		},
-		[ onClick, onEvent, items, total, stripe, stripeConfiguration ]
+		[ onClick, onEvent, stripe, stripeConfiguration ]
 	);
 	const { paymentRequest, canMakePayment, isLoading } = useStripePaymentRequest( {
 		paymentRequestOptions,
