@@ -147,6 +147,7 @@ export function readCheckoutPaymentMethodSlug( slug: string ): CheckoutPaymentMe
 		case 'sofort':
 		case 'stripe-three-d-secure':
 		case 'wechat':
+		case 'web-pay':
 		case 'full-credits':
 		case 'free-purchase':
 			return slug;
