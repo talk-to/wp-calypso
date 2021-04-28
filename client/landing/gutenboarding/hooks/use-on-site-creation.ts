@@ -16,6 +16,7 @@ import { recordOnboardingComplete } from '../lib/analytics';
 import { useSelectedPlan, useShouldRedirectToEditorAfterCheckout } from './use-selected-plan';
 import { clearLastNonEditorRoute } from '../lib/clear-last-non-editor-route';
 import { useOnboardingFlow } from '../path';
+import { isBlankCanvasDesign } from '@automattic/design-picker';
 
 const wpcom = wp.undocumented();
 
@@ -78,6 +79,7 @@ export default function useOnSiteCreation(): void {
 	const flowCompleteTrackingParams = {
 		isNewSite: !! newSite,
 		isNewUser: !! newUser,
+		isBlankCanvas: design && isBlankCanvasDesign( design ),
 		blogId: newSite?.blogid,
 		hasCartItems: false,
 	};
