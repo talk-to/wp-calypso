@@ -363,18 +363,18 @@ function useCreateApplePay( {
 	stripeConfiguration,
 	stripe,
 	isApplePayAvailable,
-	isApplePayLoading,
+	isWebPayLoading,
 }: {
 	isStripeLoading: boolean;
 	stripeLoadingError: StripeLoadingError;
 	stripeConfiguration: StripeConfiguration | null;
 	stripe: Stripe | null;
 	isApplePayAvailable: boolean;
-	isApplePayLoading: boolean;
+	isWebPayLoading: boolean;
 } ): PaymentMethod | null {
 	const isStripeReady = ! isStripeLoading && ! stripeLoadingError && stripe && stripeConfiguration;
 
-	const shouldCreateApplePayMethod = isStripeReady && ! isApplePayLoading && isApplePayAvailable;
+	const shouldCreateApplePayMethod = isStripeReady && ! isWebPayLoading && isApplePayAvailable;
 
 	const applePayMethod = useMemo( () => {
 		return shouldCreateApplePayMethod && stripe && stripeConfiguration
@@ -390,13 +390,23 @@ function useCreateGooglePay( {
 	stripeLoadingError,
 	stripeConfiguration,
 	stripe,
+	isGooglePayAvailable,
+	isWebPayLoading,
 }: {
 	isStripeLoading: boolean;
 	stripeLoadingError: StripeLoadingError;
 	stripeConfiguration: StripeConfiguration | null;
 	stripe: Stripe | null;
+	isGooglePayAvailable: boolean;
+	isWebPayLoading: boolean;
 } ): PaymentMethod | null {
-	const isStripeReady = ! isStripeLoading && ! stripeLoadingError && stripe && stripeConfiguration;
+	const isStripeReady =
+		! isStripeLoading &&
+		! stripeLoadingError &&
+		! isWebPayLoading &&
+		stripe &&
+		stripeConfiguration &&
+		isGooglePayAvailable;
 
 	return useMemo( () => {
 		return isStripeReady && stripe && stripeConfiguration
@@ -411,7 +421,8 @@ export default function useCreatePaymentMethods( {
 	stripeConfiguration,
 	stripe,
 	isApplePayAvailable,
-	isApplePayLoading,
+	isGooglePayAvailable,
+	isWebPayLoading,
 	storedCards,
 	siteSlug,
 }: {
@@ -420,7 +431,8 @@ export default function useCreatePaymentMethods( {
 	stripeConfiguration: StripeConfiguration | null;
 	stripe: Stripe | null;
 	isApplePayAvailable: boolean;
-	isApplePayLoading: boolean;
+	isGooglePayAvailable: boolean;
+	isWebPayLoading: boolean;
 	storedCards: StoredCard[];
 	siteSlug: string | undefined;
 } ): PaymentMethod[] {
@@ -514,7 +526,7 @@ export default function useCreatePaymentMethods( {
 		stripeConfiguration,
 		stripe,
 		isApplePayAvailable,
-		isApplePayLoading,
+		isWebPayLoading,
 	} );
 
 	const googlePayMethod = useCreateGooglePay( {
@@ -522,6 +534,8 @@ export default function useCreatePaymentMethods( {
 		stripeLoadingError,
 		stripeConfiguration,
 		stripe,
+		isGooglePayAvailable,
+		isWebPayLoading,
 	} );
 
 	const existingCardMethods = useCreateExistingCards( {
