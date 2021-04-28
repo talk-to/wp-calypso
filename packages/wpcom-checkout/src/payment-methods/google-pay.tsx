@@ -226,22 +226,26 @@ function useStripePaymentRequest( {
 		request
 			.canMakePayment()
 			.then( ( result ) => {
+				if ( ! isSubscribed ) {
+					return;
+				}
 				debug( 'canMakePayment updating to', result );
-				isSubscribed &&
-					setPaymentRequestState( ( state ) => ( {
-						...state,
-						canMakePayment: !! result?.googlePay,
-						isLoading: false,
-					} ) );
+				setPaymentRequestState( ( state ) => ( {
+					...state,
+					canMakePayment: !! result?.googlePay,
+					isLoading: false,
+				} ) );
 			} )
 			.catch( ( error ) => {
+				if ( ! isSubscribed ) {
+					return;
+				}
 				console.error( 'Error while creating stripe payment request', error ); // eslint-disable-line no-console
-				isSubscribed &&
-					setPaymentRequestState( ( state ) => ( {
-						...state,
-						canMakePayment: false,
-						isLoading: false,
-					} ) );
+				setPaymentRequestState( ( state ) => ( {
+					...state,
+					canMakePayment: false,
+					isLoading: false,
+				} ) );
 			} );
 		request.on( 'paymentmethod', callback );
 		setPaymentRequestState( ( state ) => ( {
