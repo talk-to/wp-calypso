@@ -4,7 +4,7 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import debugFactory from 'debug';
 import { useI18n } from '@wordpress/react-i18n';
-import { useLineItems, useEvents, ProcessPayment } from '@automattic/composite-checkout';
+import { useLineItems, ProcessPayment } from '@automattic/composite-checkout';
 import type { PaymentMethod, LineItem } from '@automattic/composite-checkout';
 import type {
 	Stripe,
@@ -60,7 +60,6 @@ export function GooglePaySubmitButton( {
 } ): JSX.Element {
 	const { __ } = useI18n();
 	const paymentRequestOptions = usePaymentRequestOptions( stripeConfiguration );
-	const onEvent = useEvents();
 	const onSubmit = useCallback(
 		( { name, paymentMethodToken } ) => {
 			debug( 'submitting stripe payment with key', paymentMethodToken );
@@ -69,7 +68,6 @@ export function GooglePaySubmitButton( {
 					'Missing onClick prop; GooglePaySubmitButton must be used as a payment button in CheckoutSubmitButton'
 				);
 			}
-			onEvent( { type: 'GOOGLE_PAY_TRANSACTION_BEGIN' } );
 			onClick( 'google-pay', {
 				stripe,
 				paymentMethodToken,
@@ -77,17 +75,15 @@ export function GooglePaySubmitButton( {
 				stripeConfiguration,
 			} );
 		},
-		[ onClick, onEvent, stripe, stripeConfiguration ]
+		[ onClick, stripe, stripeConfiguration ]
 	);
 	const { paymentRequest, canMakePayment, isLoading } = useStripePaymentRequest( {
 		paymentRequestOptions,
 		onSubmit,
 		stripe,
 	} );
-	debug( 'google-pay button isLoading', isLoading );
 
 	if ( ! isLoading && ! canMakePayment ) {
-		onEvent( { type: 'GOOGLE_PAY_LOADING_ERROR', payload: 'This payment type is not supported' } );
 		return (
 			<PaymentRequestButton
 				paymentRequest={ paymentRequest }
