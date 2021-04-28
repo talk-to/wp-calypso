@@ -40,6 +40,7 @@ project {
 	subProject(_self.projects.DesktopApp)
 	subProject(_self.projects.WPComPlugins)
 	subProject(_self.projects.WebApp)
+	subProject(_self.projects.VisualRegression)
 	buildType(BuildBaseImages)
 	buildType(CheckCodeStyle)
 
