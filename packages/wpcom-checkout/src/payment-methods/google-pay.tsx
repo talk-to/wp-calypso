@@ -166,6 +166,7 @@ function usePaymentRequestOptions(
 		null
 	);
 	const paymentRequestOptions = useMemo( () => {
+		debug( 'generating payment request options' );
 		if ( ! currency || ! total.amount.value ) {
 			return null;
 		}
@@ -217,11 +218,11 @@ function useStripePaymentRequest( {
 	);
 
 	useEffect( () => {
-		debug( 'preparing stripe payment request', paymentRequestOptions );
-		let isSubscribed = true;
 		if ( ! stripe || ! paymentRequestOptions ) {
 			return;
 		}
+		let isSubscribed = true;
+		debug( 'creating stripe payment request', paymentRequestOptions );
 		const request = stripe.paymentRequest( paymentRequestOptions );
 		request
 			.canMakePayment()
@@ -229,7 +230,7 @@ function useStripePaymentRequest( {
 				if ( ! isSubscribed ) {
 					return;
 				}
-				debug( 'canMakePayment updating to', result );
+				debug( 'canMakePayment returned from stripe paymentRequest', result );
 				setPaymentRequestState( ( state ) => ( {
 					...state,
 					canMakePayment: !! result?.googlePay,
