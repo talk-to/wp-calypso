@@ -180,6 +180,18 @@ function usePaymentRequestOptions(
 	return paymentRequestOptions;
 }
 
+interface PaymentRequestState {
+	paymentRequest: StripePaymentRequest | undefined;
+	canMakePayment: boolean;
+	isLoading: boolean;
+}
+
+const initialPaymentRequestState: PaymentRequestState = {
+	paymentRequest: undefined,
+	canMakePayment: false,
+	isLoading: true,
+};
+
 function useStripePaymentRequest( {
 	paymentRequestOptions,
 	onSubmit,
@@ -189,8 +201,9 @@ function useStripePaymentRequest( {
 	stripe: Stripe;
 	onSubmit: SubmitCompletePaymentMethodTransaction;
 } ) {
-	const [ canMakePayment, setCanMakePayment ] = useState< boolean | string >( 'loading' );
-	const [ paymentRequest, setPaymentRequest ] = useState< StripePaymentRequest | undefined >();
+	const [ paymentRequestState, setPaymentRequestState ] = useState< PaymentRequestState >(
+		initialPaymentRequestState
+	);
 
 	// We have to memoize this to prevent re-creating the paymentRequest
 	const callback = useCallback(
@@ -204,27 +217,49 @@ function useStripePaymentRequest( {
 	);
 
 	useEffect( () => {
+		debug( 'preparing stripe payment request', paymentRequestOptions );
 		let isSubscribed = true;
 		if ( ! stripe || ! paymentRequestOptions ) {
 			return;
 		}
 		const request = stripe.paymentRequest( paymentRequestOptions );
-		request.canMakePayment().then( ( result ) => {
-			debug( 'canMakePayment updating to', result );
-			isSubscribed && setCanMakePayment( !! result?.googlePay );
-		} );
+		request
+			.canMakePayment()
+			.then( ( result ) => {
+				debug( 'canMakePayment updating to', result );
+				isSubscribed &&
+					setPaymentRequestState( ( state ) => ( {
+						...state,
+						canMakePayment: !! result?.googlePay,
+						isLoading: false,
+					} ) );
+			} )
+			.catch( ( error ) => {
+				console.error( 'Error while creating stripe payment request', error ); // eslint-disable-line no-console
+				isSubscribed &&
+					setPaymentRequestState( ( state ) => ( {
+						...state,
+						canMakePayment: false,
+						isLoading: false,
+					} ) );
+			} );
 		request.on( 'paymentmethod', callback );
-		setPaymentRequest( request );
+		setPaymentRequestState( ( state ) => ( {
+			...state,
+			paymentRequest: request,
+		} ) );
 		return () => {
 			isSubscribed = false;
 		};
 	}, [ stripe, paymentRequestOptions, callback ] );
 
-	return {
-		paymentRequest,
-		canMakePayment: canMakePayment === 'loading' ? false : canMakePayment,
-		isLoading: canMakePayment === 'loading',
-	};
+	debug(
+		'returning stripe payment request; isLoading:',
+		paymentRequestState.isLoading,
+		'canMakePayment:',
+		paymentRequestState.canMakePayment
+	);
+	return paymentRequestState;
 }
 
 function getDisplayItemsForLineItems( items: LineItem[] ) {
