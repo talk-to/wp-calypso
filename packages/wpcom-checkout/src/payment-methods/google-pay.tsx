@@ -86,7 +86,6 @@ export function GooglePaySubmitButton( {
 	if ( ! isLoading && ! canMakePayment ) {
 		return (
 			<PaymentRequestButton
-				paymentRequest={ paymentRequest }
 				paymentType="google-pay"
 				disabled
 				disabledReason={ __( 'This payment type is not supported' ) }
