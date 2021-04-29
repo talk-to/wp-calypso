@@ -408,10 +408,15 @@ export default class GutenbergEditorComponent extends AsyncBaseContainer {
 			`.edit-post-layout__inserter-panel .block-editor-block-types-list button.editor-block-list-item-${ prefix }${ blockClass }, ${ deprecatedInserterBlockItemSelector }`
 		);
 
+		// @TODO Remove the `deprecatedInsertedBlockSelector` once we get 10.5.0 in production.
+		const deprecatedInsertedBlockSelector = `.block-editor-block-list__block.${
+			initsWithChildFocus ? 'has-child-selected' : 'is-selected'
+		}[aria-label*='${ ariaLabel }']`;
+
 		const insertedBlockSelector = By.css(
-			`.block-editor-block-list__block.${
+			`.block-editor-block-list__layout.${
 				initsWithChildFocus ? 'has-child-selected' : 'is-selected'
-			}[aria-label*='${ ariaLabel }']`
+			}[aria-label*='${ ariaLabel }'], ${ deprecatedInsertedBlockSelector }`
 		);
 
 		await this.openBlockInserterAndSearch( title );

@@ -78,9 +78,13 @@ class LayoutGridBlockComponent extends GutenbergBlockComponent {
 			By.css( `button.editor-block-list-item-${ blockClass.blockName.replace( '/', '-' ) }` )
 		);
 
+		// @TODO Remove the `deprecatedInsertedBlockSelector` once we get 10.5.0 in production.
+		const deprecatedInsertedBlockSelector = `${ this.blockID } div.wp-block-jetpack-layout-grid .block-editor-block-list__block[aria-label='Block: ${ blockClass.blockTitle }']`;
+
 		const insertedBlockSelector = By.css(
-			`${ this.blockID } div.wp-block-jetpack-layout-grid .block-editor-block-list__block[aria-label='Block: ${ blockClass.blockTitle }']`
+			`${ this.blockID } div[aria-label='Block: ${ blockClass.blockTitle }'], ${ deprecatedInsertedBlockSelector }`
 		);
+
 		const blockId = await this.driver.findElement( insertedBlockSelector ).getAttribute( 'id' );
 
 		// We need to move focus away from the layout grid, or any subsequent blocks inserted will be part of it
