@@ -157,6 +157,7 @@ module.exports = {
 
 					// TypeScript compiler already takes care of these errors
 					'import/named': 'off',
+					'import/default': 'off',
 				},
 			}
 		),
@@ -379,6 +380,7 @@ module.exports = {
 		// Force packages to declare their dependencies
 		'import/no-extraneous-dependencies': 'error',
 		'import/named': 'error',
+		'import/default': 'error',
 
 		'wpcalypso/no-unsafe-wp-apis': [
 			'error',
